@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎤 FNF · Álbum Dev Tools</title>
+    <!-- Fuente pixelada estilo FNF -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── RESET ─── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: #0a0a0f;
+            /* fondo oscuro con luces de club */
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 150, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 200, 0.08) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0a0f 0%, #1a0a1a 100%);
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        /* ─── CONTENEDOR PRINCIPAL ─── */
+        .fnf-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(10, 10, 20, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            padding: 2rem 2rem 1.5rem;
+            border: 2px solid rgba(0, 180, 255, 0.2);
+            box-shadow: 0 0 60px rgba(0, 150, 255, 0.05), inset 0 0 60px rgba(255, 0, 200, 0.02);
+        }
+
+        /* ─── HEADER CON BOYFRIEND & GIRLFRIEND ─── */
+        .fnf-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fnf-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(0, 150, 255, 0.03), transparent 70%);
+            pointer-events: none;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            z-index: 1;
+        }
+
+        .bf-gf {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 2.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.2));
+        }
+
+        .header-title {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-title h1 {
+            font-size: 1.6rem;
+            color: #00ccff;
+            text-shadow: 0 0 20px rgba(0, 200, 255, 0.3), 0 0 60px rgba(0, 150, 255, 0.1);
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .header-title h1 span {
+            color: #ff44cc;
+            text-shadow: 0 0 20px rgba(255, 68, 204, 0.3);
+        }
+
+        .header-title .subtitle {
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 3px;
+            margin-top: 0.2rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .header-right .week-badge {
+            font-size: 0.5rem;
+            color: rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.4rem 0.9rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            letter-spacing: 1px;
+        }
+
+        .header-right .week-badge i {
+            color: #ff44cc;
+            font-style: normal;
+        }
+
+        /* ─── GRID ─── */
+        .fnf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 1.8rem 1.5rem;
+            margin: 1rem 0 0.5rem;
+        }
+
+        /* ─── TARJETA ESTILO FNF ─── */
+        .fnf-card {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 1.2rem;
+            padding: 1.2rem 0.8rem 1.2rem;
+            border: 1px solid rgba(0, 180, 255, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transition: all 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fnf-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ccff, #ff44cc, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .fnf-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(0, 200, 255, 0.3);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 150, 255, 0.05);
+            background: rgba(10, 10, 30, 0.8);
+        }
+
+        .fnf-card:hover::after {
+            opacity: 1;
+        }
+
+        /* ícono grande tipo "personaje" */
+        .fnf-icon {
+            font-size: 3.6rem;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+            transition: transform 0.2s ease;
+        }
+
+        .fnf-card:hover .fnf-icon {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        /* frase "It is a/an" */
+        .fnf-phrase {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.25rem 0.7rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
+            width: 100%;
+        }
+
+        .fnf-phrase .article {
+            color: #00ccff;
+            font-weight: 700;
+        }
+
+        .fnf-phrase .tag-word {
+            color: #ff44cc;
+        }
+
+        .fnf-name {
+            font-size: 0.85rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0, 150, 255, 0.15);
+            letter-spacing: 0.5px;
+            margin-top: 0.1rem;
+            line-height: 1.3;
+        }
+
+        .fnf-desc {
+            font-size: 0.45rem;
+            color: rgba(255, 255, 255, 0.25);
+            margin-top: 0.3rem;
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+            padding: 0 0.2rem;
+        }
+
+        .fnf-tag {
+            margin-top: 0.5rem;
+            font-size: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(0, 180, 255, 0.08);
+            color: rgba(0, 200, 255, 0.5);
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 180, 255, 0.05);
+        }
+
+        /* ─── FOOTER ─── */
+        .fnf-footer {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 180, 255, 0.06);
+        }
+
+        .fnf-stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .fnf-stat {
+            font-size: 0.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fnf-stat strong {
+            color: #00ccff;
+            font-size: 0.7rem;
+        }
+
+        .fnf-stat .heart {
+            color: #ff44cc;
+        }
+
+        .btn-fnf {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .btn-fnf:hover {
+            background: rgba(0, 180, 255, 0.05);
+            border-color: rgba(0, 200, 255, 0.3);
+            color: #fff;
+            transform: scale(1.03);
+        }
+
+        .btn-fnf:active {
+            transform: scale(0.95);
+        }
+
+        .fnf-credit {
+            font-size: 0.4rem;
+            color: rgba(255, 255, 255, 0.08);
+            letter-spacing: 2px;
+        }
+
+        .fnf-credit span {
+            color: rgba(255, 68, 204, 0.15);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 700px) {
+            .fnf-container {
+                padding: 1rem 0.8rem;
+                border-radius: 1.2rem;
+            }
+            .fnf-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+                padding: 0.8rem 1rem;
+            }
+            .header-left {
+                flex-wrap: wrap;
+            }
+            .bf-gf {
+                font-size: 2rem;
+            }
+            .header-title h1 {
+                font-size: 1.1rem;
+            }
+            .fnf-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+            .fnf-icon {
+                font-size: 2.8rem;
+            }
+            .fnf-name {
+                font-size: 0.7rem;
+            }
+            .fnf-footer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            .fnf-stats {
+                justify-content: center;
+            }
+            .btn-fnf {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .fnf-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 0.8rem;
+            }
+            .fnf-icon {
+                font-size: 2.2rem;
+            }
+            .fnf-phrase {
+                font-size: 0.45rem;
+            }
+            .fnf-name {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fnf-container">
+        <!-- HEADER con Boyfriend y Girlfriend -->
+        <header class="fnf-header">
+            <div class="header-left">
+                <div class="bf-gf">
+                    <span>👨🏻‍🎤</span> <!-- Boyfriend -->
+                    <span style="font-size:1.2rem; color:rgba(255,255,255,0.2);">♥</span>
+                    <span>👩🏻‍🎤</span> <!-- Girlfriend -->
+                </div>
+                <div class="header-title">
+                    <h1>
+                        FRIDAY NIGHT <span>FUNKIN'</span>
+                    </h1>
+                    <div class="subtitle">▸ ÁLBUM DEV TOOLS ◂</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="week-badge">
+                    <i>✦</i> WEEK 7 <i>✦</i>
+                </div>
+                <div class="week-badge" style="border-color:rgba(255,68,204,0.1);">
+                    <i style="color:#ff44cc;">♫</i> it is a / an
+                </div>
+            </div>
+        </header>
+
+        <!-- GRID DE HERRAMIENTAS (30) -->
+        <div class="fnf-grid" id="fnfGrid">
+            <!-- Se genera con JS -->
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="fnf-footer">
+            <div class="fnf-stats">
+                <div class="fnf-stat">
+                    🎵 <strong id="totalCount">30</strong> tools
+                </div>
+                <div class="fnf-stat">
+                    <span class="heart">❤️</span> <strong id="likeCountDisplay">0</strong> beats
+                </div>
+            </div>
+            <button class="btn-fnf" id="likeBtn">
+                <span>🎤</span> DROP THE BEAT
+            </button>
+            <div class="fnf-credit">
+                <span>◆</span> boyfriend · girlfriend <span>◆</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // ─── 30 HERRAMIENTAS CON TEMÁTICA FNF ──────────────────────
+            const tools = [
+                { icon: '💻', name: 'VS Code', desc: 'Editor para codear como BF', tag: 'programa', article: 'a' },
+                { icon: '🎨', name: 'Figma', desc: 'Diseña como toda una GF', tag: 'artefacto', article: 'a' },
+                { icon: '🖌️', name: 'Photoshop', desc: 'Pinta sprites pixelados', tag: 'programa', article: 'an' },
+                { icon: '🔀', name: 'Git', desc: 'Control de versos y ramas', tag: 'artefacto', article: 'a' },
+                { icon: '🐙', name: 'GitHub', desc: 'Repositorio de canciones', tag: 'artefacto', article: 'a' },
+                { icon: '🔍', name: 'DevTools', desc: 'Inspecciona como un pro', tag: 'programa', article: 'a' },
+                { icon: '🌀', name: 'Tailwind', desc: 'Estilo rápido y preciso', tag: 'artefacto', article: 'a' },
+                { icon: '⚛️', name: 'React', desc: 'Componentes como acordes', tag: 'artefacto', article: 'a' },
+                { icon: '🟢', name: 'Node.js', desc: 'Corre en el servidor', tag: 'programa', article: 'a' },
+                { icon: '🍃', name: 'MongoDB', desc: 'Base de datos flexible', tag: 'artefacto', article: 'a' },
+                { icon: '📮', name: 'Postman', desc: 'Prueba APIs como GF', tag: 'programa', article: 'an' },
+                { icon: '📐', name: 'Adobe XD', desc: 'Prototipado de nivel', tag: 'programa', article: 'an' },
+                { icon: '📦', name: 'Webpack', desc: 'Empaqueta tu código', tag: 'artefacto', article: 'a' },
+                { icon: '🧹', name: 'ESLint', desc: 'Limpia tu sintaxis', tag: 'artefacto', article: 'an' },
+                { icon: '🐳', name: 'Docker', desc: 'Contenedores estables', tag: 'programa', article: 'a' },
+                { icon: '🔷', name: 'TypeScript', desc: 'Tipado como un campeón', tag: 'artefacto', article: 'a' },
+                { icon: '🧩', name: 'Sass', desc: 'CSS con superpoderes', tag: 'artefacto', article: 'a' },
+                { icon: '🌐', name: 'Chrome', desc: 'Navega y testeá', tag: 'programa', article: 'a' },
+                { icon: '📱', name: 'Responsively', desc: 'Mira en todos los lados', tag: 'programa', article: 'a' },
+                { icon: '🎯', name: 'Jest', desc: 'Testea tu código', tag: 'artefacto', article: 'a' },
+                { icon: '📊', name: 'Tableau', desc: 'Visualiza datos', tag: 'programa', article: 'a' },
+                { icon: '🧪', name: 'Cypress', desc: 'Testing end-to-end', tag: 'artefacto', article: 'a' },
+                { icon: '📋', name: 'Notion', desc: 'Documenta tus ideas', tag: 'artefacto', article: 'a' },
+                { icon: '🎬', name: 'Loom', desc: 'Graba tus tutoriales', tag: 'programa', article: 'a' },
+                { icon: '🧊', name: 'Blender', desc: 'Modela en 3D', tag: 'programa', article: 'a' },
+                { icon: '📡', name: 'Insomnia', desc: 'Cliente para APIs', tag: 'programa', article: 'an' },
+                { icon: '🛠️', name: 'Vite', desc: 'Bundler ultrarrápido', tag: 'artefacto', article: 'a' },
+                { icon: '📂', name: 'FileZilla', desc: 'Sube tus archivos', tag: 'programa', article: 'a' },
+                { icon: '🧠', name: 'ChatGPT', desc: 'IA que te ayuda a codear', tag: 'artefacto', article: 'a' },
+                { icon: '🎧', name: 'Spotify', desc: 'Música para el flow', tag: 'programa', article: 'a' }
+            ];
+
+            // ─── RENDERIZAR ─────────────────────────────────────────────
+            const grid = document.getElementById('fnfGrid');
+            let html = '';
+
+            tools.forEach((tool, index) => {
+                html += `
+                    <div class="fnf-card" data-id="${index}">
+                        <div class="fnf-icon">${tool.icon}</div>
+                        <div class="fnf-phrase">
+                            <span class="article">It is ${tool.article}</span>
+                            <span class="tag-word">${tool.tag}</span>
+                        </div>
+                        <div class="fnf-name">${tool.name}</div>
+                        <div class="fnf-desc">${tool.desc}</div>
+                        <div class="fnf-tag">${tool.tag}</div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+
+            // ─── CONTADOR ──────────────────────────────────────────────
+            document.getElementById('totalCount').textContent = tools.length;
+
+            // ─── LIKES (BEATS) ──────────────────────────────────────────
+            let beats = parseInt(localStorage.getItem('fnfBeats')) || 0;
+            const likeDisplay = document.getElementById('likeCountDisplay');
+            const likeBtn = document.getElementById('likeBtn');
+
+            function updateBeats() {
+                likeDisplay.textContent = beats;
+                localStorage.setItem('fnfBeats', beats);
+            }
+            updateBeats();
+
+            likeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                beats += 1;
+                updateBeats();
+                this.style.transform = 'scale(0.93)';
+                setTimeout(() => { this.style.transform = 'scale(1)'; }, 120);
+                // efecto visual adicional
+                this.style.borderColor = 'rgba(255,68,204,0.4)';
+                setTimeout(() => { this.style.borderColor = ''; }, 300);
+            });
+
+            // ─── CLICK EN TARJETA → CONSOLA ──────────────────────────
+            document.querySelectorAll('.fnf-card').forEach((card) => {
+                card.addEventListener('click', function() {
+                    const nameEl = this.querySelector('.fnf-name');
+                    if (nameEl) {
+                        console.log(`🎤 FNF · ${nameEl.textContent.trim()} · beat drop!`);
+                    }
+                    this.style.transition = 'box-shadow 0.15s ease';
+                    this.style.boxShadow = '0 0 0 2px rgba(0,200,255,0.3), 0 16px 40px rgba(0,0,0,0.6)';
+                    setTimeout(() => {
+                        this.style.boxShadow = '';
+                    }, 350);
+                });
+            });
+
+            console.log('🎤 Friday Night Funkin\' · Álbum Dev Tools cargado!');
+            console.log('👨🏻‍🎤 Boyfriend + 👩🏻‍🎤 Girlfriend · 30 herramientas');
+            console.log('♫ It is a / an · FNF style');
+        })();
+    </script>
+</body>
+</html>
