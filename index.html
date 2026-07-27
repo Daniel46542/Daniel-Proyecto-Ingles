@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💄 Glam Dev & Design · Beauty Tools</title>
+    <!-- Tipografía moderna y casual -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── RESET Y VARIABLES ─── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #f4f6fc;
+            --primary: #ff3366;       /* Rosa Fucsia Vivo */
+            --primary-bg: #fff0f5;
+            --secondary: #00d2ff;     /* Cían Eléctrico */
+            --secondary-bg: #e6f9ff;
+            --accent: #8b5cf6;        /* Púrpura Vibrante */
+            --accent-bg: #f3e8ff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --card-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.25);
+            --card-shadow-hover: 0 20px 35px -10px rgba(255, 51, 102, 0.3);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(circle at 5% 5%, #ffe6ee 0%, transparent 35%),
+                radial-gradient(circle at 95% 95%, #e0f7fa 0%, transparent 35%),
+                radial-gradient(circle at 50% 50%, #f3e8ff 0%, transparent 45%);
+            min-height: 100vh;
+            padding: 2.5rem 1rem;
+            color: var(--text-main);
+        }
+
+        /* ─── CONTENEDOR PRINCIPAL ─── */
+        .glam-container {
+            max-width: 1350px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 2.5rem;
+            padding: 2.5rem;
+            border: 2px solid #ffffff;
+            box-shadow: 0 25px 50px -12px rgba(100, 116, 139, 0.15);
+        }
+
+        /* ─── HEADER ─── */
+        .glam-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            padding: 1.5rem 2rem;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .glam-icons {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 2.3rem;
+            background: var(--primary-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 51, 102, 0.2);
+        }
+
+        .header-title h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title .subtitle {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #00b4d8;
+            letter-spacing: 1px;
+            margin-top: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .glam-badge {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent);
+            background: var(--accent-bg);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        /* BOTÓN DE IDIOMA */
+        .btn-lang {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            background: #ffffff;
+            color: var(--text-main);
+            border: 2px solid var(--accent);
+            padding: 0.65rem 1.4rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+        }
+
+        .btn-lang:hover {
+            background: var(--accent);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        /* ─── GRID REACOMODADO ─── */
+        .glam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin: 1.5rem 0;
+        }
+
+        /* ─── TARJETAS / CUADROS ─── */
+        .glam-card {
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 1.8rem 1.4rem;
+            border: 2px solid #f1f5f9;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .glam-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .glam-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: var(--card-shadow-hover);
+            background: linear-gradient(180deg, #ffffff 0%, var(--primary-bg) 100%);
+        }
+
+        .glam-card:hover::before {
+            opacity: 1;
+        }
+
+        .glam-card.active {
+            border-color: var(--accent);
+            background: var(--accent-bg);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.35);
+            transform: scale(0.97);
+        }
+
+        .glam-icon {
+            font-size: 3.8rem;
+            margin-bottom: 0.8rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06));
+            transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+
+        .glam-card:hover .glam-icon {
+            transform: scale(1.25) rotate(8deg);
+        }
+
+        .glam-card.active .glam-icon {
+            animation: pulse-icon 0.5s ease;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(-10deg); }
+        }
+
+        /* GRAMÁTICA CÁPSULA */
+        .glam-phrase {
+            font-size: 0.78rem;
+            font-weight: 700;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .glam-phrase span {
+            padding: 0.4rem 0.6rem;
+            border-radius: 12px;
+            letter-spacing: -0.2px;
+        }
+
+        .glam-phrase .statement {
+            background: var(--primary-bg);
+            color: var(--primary);
+            border: 1px solid rgba(255, 51, 102, 0.15);
+        }
+
+        .glam-phrase .question {
+            background: var(--secondary-bg);
+            color: #0088cc;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .glam-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.3rem;
+        }
+
+        .glam-desc {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1.2rem;
+            flex: 1;
+        }
+
+        .glam-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #f1f5f9;
+            color: var(--accent);
+            padding: 0.4rem 1.1rem;
+            border-radius: 50px;
+            transition: all 0.25s ease;
+        }
+
+        .glam-card:hover .glam-tag {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        /* ─── FOOTER & BOTÓN INTERACTIVO ─── */
+        .glam-footer {
+            margin-top: 3.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        .glam-stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .glam-stat {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: #ffffff;
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .glam-stat strong {
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+
+        .btn-glam {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border: none;
+            color: #ffffff;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: pulse-button 2.5s infinite;
+        }
+
+        @keyframes pulse-button {
+            0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.5); }
+            70% { box-shadow: 0 0 0 18px rgba(255, 51, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); }
+        }
+
+        .btn-glam:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(255, 51, 102, 0.6);
+        }
+
+        .btn-glam:active {
+            transform: translateY(1px) scale(0.96);
+        }
+
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .glam-credit {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--text-muted);
+        }
+
+        .glam-credit span {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .glam-container {
+                padding: 1.5rem 1rem;
+            }
+            .glam-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .glam-grid {
+                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+                gap: 1.2rem;
+            }
+            .glam-card {
+                padding: 1.2rem 0.8rem;
+            }
+            .glam-icon {
+                font-size: 3rem;
+            }
+            .glam-footer {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .glam-stats, .btn-glam {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glam-container">
+        <!-- HEADER -->
+        <header class="glam-header">
+            <div class="header-left">
+                <div class="glam-icons">
+                    <span>✨</span>
+                    <span>💄</span>
+                </div>
+                <div class="header-title">
+                    <h1>GLAM DEV & DESIGN</h1>
+                    <div class="subtitle" id="headerSubtitle">▸ Beauty Accessories Album ◂</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="glam-badge">
+                    <span>💬</span> <span id="grammarLabel">Practice: <strong>IT IS</strong> / <strong>IS IT?</strong></span>
+                </div>
+                <button class="btn-lang" id="langBtn">
+                    <span>🌐</span> <span id="langText">Español</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- GRID CON TARJETAS TRADUCIBLES -->
+        <div class="glam-grid" id="glamGrid"></div>
+
+        <!-- FOOTER -->
+        <footer class="glam-footer">
+            <div class="glam-stats">
+                <div class="glam-stat">
+                    💅 <strong id="totalCount">0</strong> <span id="statItemsLabel">Items</span>
+                </div>
+                <div class="glam-stat">
+                    ✨ <strong id="glamCountDisplay">0</strong> Glams
+                </div>
+            </div>
+            <button class="btn-glam" id="glamBtn">
+                <span>✨</span> <span id="btnGlamText">GLAM UP CODE</span>
+            </button>
+            <div class="glam-credit">
+                <span>◆</span> Web Design & Dev <span>◆</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Estado actual del idioma ('en' o 'es')
+            let currentLang = localStorage.getItem('glamLang') || 'en';
+
+            // Diccionario de traducciones de la interfaz general
+            const uiTranslations = {
+                en: {
+                    subtitle: '▸ Beauty Accessories Album ◂',
+                    grammar: 'Practice: <strong>IT IS</strong> / <strong>IS IT?</strong>',
+                    langBtn: '🇪🇸 Español',
+                    itemsLabel: 'Items',
+                    btnGlam: 'GLAM UP CODE'
+                },
+                es: {
+                    subtitle: '▸ Álbum de Accesorios de Belleza ◂',
+                    grammar: 'Práctica: <strong>ES UNA</strong> / <strong>¿ES UNA?</strong>',
+                    langBtn: '🇬🇧 English',
+                    itemsLabel: 'Herramientas',
+                    btnGlam: 'EMBELLECER CÓDIGO'
+                }
+            };
+
+            // Lista de accesorios con soporte bilingüe (EN / ES)
+            const accessories = [
+                {
+                    icon: '💍',
+                    en: { name: 'Ring Light', desc: 'Illuminates design demos', tag: 'showcase', article: 'a', phraseIs: 'It is a showcase tool.', phraseQ: 'Is it a showcase tool?' },
+                    es: { name: 'Aro de Luz', desc: 'Ilumina las demos de diseño', tag: 'demostración', article: 'una', phraseIs: 'Es una herramienta de demostración.', phraseQ: '¿Es una herramienta de demostración?' }
+                },
+                {
+                    icon: '📸',
+                    en: { name: 'Mockup Camera', desc: 'Captures the final design', tag: 'portfolio', article: 'a', phraseIs: 'It is a portfolio tool.', phraseQ: 'Is it a portfolio tool?' },
+                    es: { name: 'Cámara Mockup', desc: 'Captura el diseño final', tag: 'portafolio', article: 'una', phraseIs: 'Es una herramienta de portafolio.', phraseQ: '¿Es una herramienta de portafolio?' }
+                },
+                {
+                    icon: '💎',
+                    en: { name: 'Vector Gem', desc: 'Clean and pure SVG paths', tag: 'graphics', article: 'a', phraseIs: 'It is a graphics tool.', phraseQ: 'Is it a graphics tool?' },
+                    es: { name: 'Gema Vectorial', desc: 'Trazados SVG limpios y puros', tag: 'gráficos', article: 'una', phraseIs: 'Es una herramienta de gráficos.', phraseQ: '¿Es una herramienta de gráficos?' }
+                },
+                {
+                    icon: '👑',
+                    en: { name: 'Favicon Crown', desc: 'King icon of the web tab', tag: 'branding', article: 'a', phraseIs: 'It is a branding tool.', phraseQ: 'Is it a branding tool?' },
+                    es: { name: 'Corona Favicon', desc: 'Icono rey de la pestaña web', tag: 'marca', article: 'una', phraseIs: 'Es una herramienta de marca.', phraseQ: '¿Es una herramienta de marca?' }
+                },
+                {
+                    icon: '🎨',
+                    en: { name: 'Makeup Palette', desc: 'HEX and RGBA color palette', tag: 'color', article: 'a', phraseIs: 'It is a color tool.', phraseQ: 'Is it a color tool?' },
+                    es: { name: 'Paleta de Maquillaje', desc: 'Paleta cromática HEX y RGBA', tag: 'color', article: 'una', phraseIs: 'Es una herramienta de color.', phraseQ: '¿Es una herramienta de color?' }
+                },
+                {
+                    icon: '🩵',
+                    en: { name: 'Color Charm', desc: 'Picks any screen tone', tag: 'ux/ui', article: 'a', phraseIs: 'It is a ux/ui tool.', phraseQ: 'Is it a ux/ui tool?' },
+                    es: { name: 'Dije de Color', desc: 'Captura cualquier tono en pantalla', tag: 'ux/ui', article: 'una', phraseIs: 'Es una herramienta de ux/ui.', phraseQ: '¿Es una herramienta de ux/ui?' }
+                },
+                {
+                    icon: '🧪',
+                    en: { name: 'Color Serum', desc: 'Tests accessible contrast', tag: 'a11y', article: 'an', phraseIs: 'It is an a11y tool.', phraseQ: 'Is it an a11y tool?' },
+                    es: { name: 'Suero de Color', desc: 'Prueba contrastes accesibles', tag: 'accesibilidad', article: 'una', phraseIs: 'Es una herramienta de accesibilidad.', phraseQ: '¿Es una herramienta de accesibilidad?' }
+                },
+                {
+                    icon: '💄',
+                    en: { name: 'UI Lipstick', desc: 'Adds a glossy finish to CSS', tag: 'styling', article: 'a', phraseIs: 'It is a styling tool.', phraseQ: 'Is it a styling tool?' },
+                    es: { name: 'Lápiz Labial UI', desc: 'Añade un acabado brillante al CSS', tag: 'estilo', article: 'una', phraseIs: 'Es una herramienta de estilo.', phraseQ: '¿Es una herramienta de estilo?' }
+                },
+                {
+                    icon: '🪮',
+                    en: { name: 'Flex Comb', desc: 'Aligns Flexbox elements', tag: 'layout', article: 'a', phraseIs: 'It is a layout tool.', phraseQ: 'Is it a layout tool?' },
+                    es: { name: 'Peine Flex', desc: 'Alinea elementos en Flexbox', tag: 'diseño', article: 'una', phraseIs: 'Es una herramienta de diseño.', phraseQ: '¿Es una herramienta de diseño?' }
+                },
+                {
+                    icon: '💅🏽',
+                    en: { name: 'Grid File', desc: 'Keeps grid blocks even', tag: 'layout', article: 'a', phraseIs: 'It is a layout tool.', phraseQ: 'Is it a layout tool?' },
+                    es: { name: 'Lima Grid', desc: 'Mantiene los bloques parejos', tag: 'maquetación', article: 'una', phraseIs: 'Es una herramienta de maquetación.', phraseQ: '¿Es una herramienta de maquetación?' }
+                },
+                {
+                    icon: '✂️',
+                    en: { name: 'Crop Scissors', desc: 'Cuts images and exact SVGs', tag: 'layout', article: 'a', phraseIs: 'It is a layout tool.', phraseQ: 'Is it a layout tool?' },
+                    es: { name: 'Tijeras Crop', desc: 'Corta imágenes y SVG exactos', tag: 'recorte', article: 'una', phraseIs: 'Es una herramienta de recorte.', phraseQ: '¿Es una herramienta de recorte?' }
+                },
+                {
+                    icon: '🎗️',
+                    en: { name: 'Border Tape', desc: 'Measures margins and paddings', tag: 'box-model', article: 'a', phraseIs: 'It is a box-model tool.', phraseQ: 'Is it a box-model tool?' },
+                    es: { name: 'Cinta Border', desc: 'Mide márgenes y paddings', tag: 'caja-modelo', article: 'una', phraseIs: 'Es una herramienta de modelo de caja.', phraseQ: '¿Es una herramienta de modelo de caja?' }
+                },
+                {
+                    icon: '🧷',
+                    en: { name: 'Sticky Pin', desc: 'Pins header elements on scroll', tag: 'css', article: 'a', phraseIs: 'It is a css tool.', phraseQ: 'Is it a css tool?' },
+                    es: { name: 'Pin Fijador', desc: 'Fija elementos header al scroll', tag: 'css', article: 'una', phraseIs: 'Es una herramienta de css.', phraseQ: '¿Es una herramienta de css?' }
+                },
+                {
+                    icon: '✨',
+                    en: { name: 'Glow Powder', desc: 'Dazzling box-shadow effects', tag: 'effects', article: 'an', phraseIs: 'It is an effects tool.', phraseQ: 'Is it an effects tool?' },
+                    es: { name: 'Polvo Brillante', desc: 'Efectos box-shadow deslumbrantes', tag: 'efectos', article: 'una', phraseIs: 'Es una herramienta de efectos.', phraseQ: '¿Es una herramienta de efectos?' }
+                },
+                {
+                    icon: '👁️',
+                    en: { name: 'Eyeliner Pen', desc: 'Sharp lines and borders', tag: 'vector', article: 'a', phraseIs: 'It is a vector tool.', phraseQ: 'Is it a vector tool?' },
+                    es: { name: 'Delineador', desc: 'Líneas y bordes (borders) finos', tag: 'vectorial', article: 'una', phraseIs: 'Es una herramienta vectorial.', phraseQ: '¿Es una herramienta vectorial?' }
+                },
+                {
+                    icon: '🪶',
+                    en: { name: 'Feather Brush', desc: 'Softly blended shadows', tag: 'design', article: 'a', phraseIs: 'It is a design tool.', phraseQ: 'Is it a design tool?' },
+                    es: { name: 'Brocha Pluma', desc: 'Sombras suavemente difuminadas', tag: 'diseño', article: 'una', phraseIs: 'Es una herramienta de diseño.', phraseQ: '¿Es una herramienta de diseño?' }
+                },
+                {
+                    icon: '💅',
+                    en: { name: 'Polish Brush', desc: 'Clean details in assets', tag: 'design', article: 'a', phraseIs: 'It is a design tool.', phraseQ: 'Is it a design tool?' },
+                    es: { name: 'Pincel Esmalte', desc: 'Detalles limpios en los assets', tag: 'diseño', article: 'una', phraseIs: 'Es una herramienta de diseño.', phraseQ: '¿Es una herramienta de diseño?' }
+                },
+                {
+                    icon: '🪡',
+                    en: { name: 'Pixel Needle', desc: 'Stitches pixel-perfect edges', tag: 'precision', article: 'a', phraseIs: 'It is a precision tool.', phraseQ: 'Is it a precision tool?' },
+                    es: { name: 'Aguja Píxel', desc: 'Cose bordes perfectos al píxel', tag: 'precisión', article: 'una', phraseIs: 'Es una herramienta de precisión.', phraseQ: '¿Es una herramienta de precisión?' }
+                },
+                {
+                    icon: '🌸',
+                    en: { name: 'Icon Blossom', desc: 'Adds delicacy to the UI', tag: 'icons', article: 'an', phraseIs: 'It is an icon tool.', phraseQ: 'Is it an icon tool?' },
+                    es: { name: 'Flor Ícono', desc: 'Añade delicadeza a la UI', tag: 'iconos', article: 'una', phraseIs: 'Es una herramienta de íconos.', phraseQ: '¿Es una herramienta de íconos?' }
+                },
+                {
+                    icon: '🧼',
+                    en: { name: 'Syntax Soap', desc: 'Cleans console errors', tag: 'debug', article: 'a', phraseIs: 'It is a debug tool.', phraseQ: 'Is it a debug tool?' },
+                    es: { name: 'Jabón Sintaxis', desc: 'Limpia errores de consola', tag: 'depuración', article: 'una', phraseIs: 'Es una herramienta de depuración.', phraseQ: '¿Es una herramienta de depuración?' }
+                },
+                {
+                    icon: '🧴',
+                    en: { name: 'Code Lotion', desc: 'Smoothes spaghetti code', tag: 'clean-code', article: 'a', phraseIs: 'It is a clean code tool.', phraseQ: 'Is it a clean code tool?' },
+                    es: { name: 'Loción Código', desc: 'Suaviza el código espagueti', tag: 'código-limpio', article: 'una', phraseIs: 'Es una herramienta de código limpio.', phraseQ: '¿Es una herramienta de código limpio?' }
+                },
+                {
+                    icon: '🧽',
+                    en: { name: 'Cache Sponge', desc: 'Absorbs and clears old memory', tag: 'backend', article: 'a', phraseIs: 'It is a backend tool.', phraseQ: 'Is it a backend tool?' },
+                    es: { name: 'Esponja Caché', desc: 'Absorbe y borra memoria vieja', tag: 'backend', article: 'una', phraseIs: 'Es una herramienta de backend.', phraseQ: '¿Es una herramienta de backend?' }
+                },
+                {
+                    icon: '💆‍♀️',
+                    en: { name: 'Refactor Spray', desc: 'Refreshes heavy JS', tag: 'performance', article: 'a', phraseIs: 'It is a performance tool.', phraseQ: 'Is it a performance tool?' },
+                    es: { name: 'Spray Refactor', desc: 'Refresca el JS pesado', tag: 'rendimiento', article: 'una', phraseIs: 'Es una herramienta de rendimiento.', phraseQ: '¿Es una herramienta de rendimiento?' }
+                },
+                {
+                    icon: '👗',
+                    en: { name: 'CSS Dress', desc: 'Dresses the HTML structure', tag: 'frontend', article: 'a', phraseIs: 'It is a frontend tool.', phraseQ: 'Is it a frontend tool?' },
+                    es: { name: 'Vestido CSS', desc: 'Viste la estructura del HTML', tag: 'frontend', article: 'una', phraseIs: 'Es una herramienta de frontend.', phraseQ: '¿Es una herramienta de frontend?' }
+                },
+                {
+                    icon: '🎀',
+                    en: { name: 'Ribbon Tag', desc: 'Clean tag for semantics', tag: 'html', article: 'an', phraseIs: 'It is an html tool.', phraseQ: 'Is it an html tool?' },
+                    es: { name: 'Lazo Semántico', desc: 'Etiqueta limpia para semántica', tag: 'html', article: 'una', phraseIs: 'Es una herramienta de html.', phraseQ: '¿Es una herramienta de html?' }
+                },
+                {
+                    icon: '🪞',
+                    en: { name: 'UX Mirror', desc: 'Reflects the user experience', tag: 'testing', article: 'a', phraseIs: 'It is a testing tool.', phraseQ: 'Is it a testing tool?' },
+                    es: { name: 'Espejo UX', desc: 'Refleja la experiencia de usuario', tag: 'pruebas', article: 'una', phraseIs: 'Es una herramienta de pruebas.', phraseQ: '¿Es una herramienta de pruebas?' }
+                },
+                {
+                    icon: '🔮',
+                    en: { name: 'Predictive Gloss', desc: 'Bright AI autocompletion', tag: 'tool', article: 'a', phraseIs: 'It is an AI tool.', phraseQ: 'Is it an AI tool?' },
+                    es: { name: 'Brillo IA', desc: 'Autocompletado brillante de IA', tag: 'herramienta', article: 'una', phraseIs: 'Es una herramienta de IA.', phraseQ: '¿Es una herramienta de IA?' }
+                },
+                {
+                    icon: '🕶️',
+                    en: { name: 'Dark Glasses', desc: 'Night mode styling protection', tag: 'theme', article: 'a', phraseIs: 'It is a theme tool.', phraseQ: 'Is it a theme tool?' },
+                    es: { name: 'Gafas Oscuras', desc: 'Protección para estilizar de noche', tag: 'tema', article: 'una', phraseIs: 'Es una herramienta de tema.', phraseQ: '¿Es una herramienta de tema?' }
+                },
+                {
+                    icon: '👜',
+                    en: { name: 'Asset Bag', desc: 'Holds fonts and icons', tag: 'resources', article: 'a', phraseIs: 'It is a resource tool.', phraseQ: 'Is it a resource tool?' },
+                    es: { name: 'Bolso Assets', desc: 'Guarda fuentes e íconos', tag: 'recursos', article: 'una', phraseIs: 'Es una herramienta de recursos.', phraseQ: '¿Es una herramienta de recursos?' }
+                },
+                {
+                    icon: '🧖‍♀️',
+                    en: { name: 'Spa Mask', desc: 'Pause for the creative mind', tag: 'workflow', article: 'a', phraseIs: 'It is a workflow tool.', phraseQ: 'Is it a workflow tool?' },
+                    es: { name: 'Mascara Spa', desc: 'Pausa para la mente creativa', tag: 'flujo-trabajo', article: 'una', phraseIs: 'Es una herramienta de flujo de trabajo.', phraseQ: '¿Es una herramienta de flujo de trabajo?' }
+                }
+            ];
+
+            const grid = document.getElementById('glamGrid');
+            const langBtn = document.getElementById('langBtn');
+
+            // Renderizado dinámico según el idioma actual
+            function renderAlbum() {
+                // Actualizar interfaz
+                const t = uiTranslations[currentLang];
+                document.getElementById('headerSubtitle').textContent = t.subtitle;
+                document.getElementById('grammarLabel').innerHTML = t.grammar;
+                document.getElementById('langText').textContent = t.langBtn;
+                document.getElementById('statItemsLabel').textContent = t.itemsLabel;
+                document.getElementById('btnGlamText').textContent = t.btnGlam;
+
+                // Renderizar Grid
+                let html = '';
+                accessories.forEach((item, index) => {
+                    const data = item[currentLang];
+                    html += `
+                        <div class="glam-card" data-id="${index}">
+                            <div class="glam-icon">${item.icon}</div>
+                            <div class="glam-phrase">
+                                <span class="statement">${data.phraseIs}</span>
+                                <span class="question">${data.phraseQ}</span>
+                            </div>
+                            <div class="glam-name">${data.name}</div>
+                            <div class="glam-desc">${data.desc}</div>
+                            <div class="glam-tag">${data.tag}</div>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = html;
+            }
+
+            // Cambiar idioma al dar click
+            langBtn.addEventListener('click', function() {
+                currentLang = currentLang === 'en' ? 'es' : 'en';
+                localStorage.setItem('glamLang', currentLang);
+                renderAlbum();
+            });
+
+            // Manejo de contadores
+            document.getElementById('totalCount').textContent = accessories.length;
+
+            let glams = parseInt(localStorage.getItem('glamBeats')) || 0;
+            const glamDisplay = document.getElementById('glamCountDisplay');
+            const glamBtn = document.getElementById('glamBtn');
+
+            function updateGlams() {
+                glamDisplay.textContent = glams;
+                localStorage.setItem('glamBeats', glams);
+            }
+            updateGlams();
+
+            // Evento Click Botón Principal con Ripple
+            glamBtn.addEventListener('click', function(e) {
+                glams += 1;
+                updateGlams();
+
+                const rect = this.getBoundingClientRect();
+                const circle = document.createElement('span');
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                circle.style.left = `${x}px`;
+                circle.style.top = `${y}px`;
+                circle.classList.add('ripple');
+                this.appendChild(circle);
+
+                setTimeout(() => circle.remove(), 600);
+            });
+
+            // Evento Click en las Tarjetas
+            grid.addEventListener('click', function(e) {
+                const card = e.target.closest('.glam-card');
+                if (card) {
+                    card.classList.toggle('active');
+                    if (card.classList.contains('active')) {
+                        glams += 1;
+                        updateGlams();
+                    }
+                }
+            });
+
+            // Inicializar renderizado
+            renderAlbum();
+        });
+    </script>
+</body>
+</html>
